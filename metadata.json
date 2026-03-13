@@ -1,0 +1,5 @@
+{
+  "name": "LinuxCmd Explorer",
+  "description": "A fast, AI-powered lookup tool for Linux commands and shell scripting.",
+  "requestFramePermissions": []
+}
