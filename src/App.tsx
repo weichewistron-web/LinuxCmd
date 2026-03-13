@@ -118,7 +118,7 @@ export default function App() {
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
       const response = await ai.models.generateContent({
-        model: 'gemini-3.1-pro-preview',
+        model: 'gemini-3-flash-preview',
         contents: `The user entered: "${query}". If this is a Linux command, explain it. If it is a task description, provide the best Linux command to achieve it. Respond entirely in Traditional Chinese (zh-TW).`,
         config: {
           responseMimeType: 'application/json',

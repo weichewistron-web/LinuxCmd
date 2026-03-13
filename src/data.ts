@@ -39,6 +39,88 @@ export const localCommands: CommandDetail[] = [
     ]
   },
   {
+    name: 'mkdir',
+    category: 'file',
+    description: '建立新目錄 (Make directories)',
+    syntax: 'mkdir [選項] 目錄名稱',
+    options: [
+      { flag: '-p', description: '建立多層級目錄，若父目錄不存在則一併建立 (Parents)' }
+    ],
+    examples: [
+      { code: 'mkdir new_folder', description: '在當前目錄建立名為 new_folder 的目錄' },
+      { code: 'mkdir -p /tmp/test/data', description: '建立多層級目錄，包含 test 與 data' }
+    ]
+  },
+  {
+    name: 'rm',
+    category: 'file',
+    description: '刪除檔案或目錄 (Remove files or directories)',
+    syntax: 'rm [選項] 檔案或目錄',
+    options: [
+      { flag: '-r', description: '遞迴刪除目錄及其內容 (Recursive)' },
+      { flag: '-f', description: '強制刪除，不顯示確認提示 (Force)' },
+      { flag: '-i', description: '刪除前逐一詢問確認 (Interactive)' }
+    ],
+    examples: [
+      { code: 'rm file.txt', description: '刪除 file.txt 檔案' },
+      { code: 'rm -rf old_project/', description: '強制且遞迴刪除 old_project 目錄 (危險操作請小心)' }
+    ]
+  },
+  {
+    name: 'cp',
+    category: 'file',
+    description: '複製檔案或目錄 (Copy files and directories)',
+    syntax: 'cp [選項] 來源 目的地',
+    options: [
+      { flag: '-r', description: '遞迴複製目錄及其內容 (Recursive)' },
+      { flag: '-i', description: '若目的地檔案已存在，覆蓋前先詢問 (Interactive)' }
+    ],
+    examples: [
+      { code: 'cp file.txt backup.txt', description: '將 file.txt 複製為 backup.txt' },
+      { code: 'cp -r src/ dest/', description: '將 src 目錄完整複製到 dest 目錄下' }
+    ]
+  },
+  {
+    name: 'mv',
+    category: 'file',
+    description: '移動或重新命名檔案與目錄 (Move or rename files)',
+    syntax: 'mv [選項] 來源 目的地',
+    options: [
+      { flag: '-i', description: '若目的地檔案已存在，覆蓋前先詢問 (Interactive)' }
+    ],
+    examples: [
+      { code: 'mv old_name.txt new_name.txt', description: '將檔案重新命名' },
+      { code: 'mv file.txt /tmp/', description: '將檔案移動到 /tmp 目錄' }
+    ]
+  },
+  {
+    name: 'cat',
+    category: 'text',
+    description: '連接檔案並印出到標準輸出 (Concatenate files and print)',
+    syntax: 'cat [選項] [檔案]',
+    options: [
+      { flag: '-n', description: '顯示行號 (Number all output lines)' }
+    ],
+    examples: [
+      { code: 'cat /etc/os-release', description: '查看系統版本資訊' },
+      { code: 'cat file1.txt file2.txt > merged.txt', description: '將兩個檔案合併成一個新檔案' }
+    ]
+  },
+  {
+    name: 'tail',
+    category: 'text',
+    description: '輸出檔案的最後幾行 (Output the last part of files)',
+    syntax: 'tail [選項] [檔案]',
+    options: [
+      { flag: '-n', description: '指定顯示的行數 (例如 -n 20)' },
+      { flag: '-f', description: '持續追蹤檔案新增的內容 (Follow)' }
+    ],
+    examples: [
+      { code: 'tail -n 50 /var/log/syslog', description: '查看系統日誌的最後 50 行' },
+      { code: 'tail -f /var/log/nginx/access.log', description: '即時監控 Nginx 的存取日誌' }
+    ]
+  },
+  {
     name: 'grep',
     category: 'text',
     description: '搜尋符合模式的字串 (Print lines matching a pattern)',
@@ -116,6 +198,20 @@ export const localCommands: CommandDetail[] = [
     ]
   },
   {
+    name: 'sudo',
+    category: 'permission',
+    description: '以其他使用者（通常是 root）身分執行指令 (Execute a command as another user)',
+    syntax: 'sudo [選項] 指令',
+    options: [
+      { flag: '-u', description: '指定要切換的使用者 (預設為 root)' },
+      { flag: '-i', description: '模擬初始登入環境 (Login shell)' }
+    ],
+    examples: [
+      { code: 'sudo apt update', description: '以 root 權限更新軟體包列表' },
+      { code: 'sudo -u postgres psql', description: '以 postgres 使用者身分執行 psql' }
+    ]
+  },
+  {
     name: 'ps',
     category: 'system',
     description: '顯示當前行程狀態 (Report a snapshot of the current processes)',
@@ -142,6 +238,47 @@ export const localCommands: CommandDetail[] = [
     ]
   },
   {
+    name: 'df',
+    category: 'system',
+    description: '顯示檔案系統的磁碟空間使用量 (Report file system disk space usage)',
+    syntax: 'df [選項]',
+    options: [
+      { flag: '-h', description: '以人類可讀的格式顯示 (Human-readable)' },
+      { flag: '-T', description: '顯示檔案系統類型' }
+    ],
+    examples: [
+      { code: 'df -h', description: '查看各個掛載點的磁碟剩餘空間' }
+    ]
+  },
+  {
+    name: 'du',
+    category: 'system',
+    description: '估算檔案或目錄的空間使用量 (Estimate file space usage)',
+    syntax: 'du [選項] [目錄或檔案]',
+    options: [
+      { flag: '-h', description: '以人類可讀的格式顯示 (Human-readable)' },
+      { flag: '-s', description: '只顯示總計大小 (Summarize)' },
+      { flag: '-d', description: '指定檢查的目錄深度 (Max depth)' }
+    ],
+    examples: [
+      { code: 'du -sh /var/log', description: '查看 /var/log 目錄的總大小' },
+      { code: 'du -h -d 1 /var', description: '查看 /var 目錄下第一層子目錄的大小' }
+    ]
+  },
+  {
+    name: 'free',
+    category: 'system',
+    description: '顯示系統記憶體使用量 (Display amount of free and used memory)',
+    syntax: 'free [選項]',
+    options: [
+      { flag: '-h', description: '以人類可讀的格式顯示 (Human-readable)' },
+      { flag: '-m', description: '以 MB 為單位顯示' }
+    ],
+    examples: [
+      { code: 'free -h', description: '查看系統目前的 RAM 與 Swap 使用狀況' }
+    ]
+  },
+  {
     name: 'curl',
     category: 'network',
     description: '透過 URL 傳輸資料的命令列工具 (Transfer a URL)',
@@ -156,6 +293,33 @@ export const localCommands: CommandDetail[] = [
       { code: 'curl -O https://example.com/file.zip', description: '下載檔案' },
       { code: 'curl -I https://google.com', description: '查看網站的 HTTP 標頭' },
       { code: 'curl -X POST -d "name=test" https://api.example.com/data', description: '發送 POST 請求' }
+    ]
+  },
+  {
+    name: 'ping',
+    category: 'network',
+    description: '測試與目標主機的連線狀態 (Send ICMP ECHO_REQUEST to network hosts)',
+    syntax: 'ping [選項] 目標主機',
+    options: [
+      { flag: '-c', description: '指定發送封包的次數 (Count)' },
+      { flag: '-i', description: '指定發送封包的間隔秒數 (Interval)' }
+    ],
+    examples: [
+      { code: 'ping -c 4 google.com', description: '向 google.com 發送 4 個測試封包' }
+    ]
+  },
+  {
+    name: 'ssh',
+    category: 'network',
+    description: '安全外殼協定遠端登入 (OpenSSH SSH client)',
+    syntax: 'ssh [選項] 使用者@主機',
+    options: [
+      { flag: '-p', description: '指定連接的 Port 號 (預設為 22)' },
+      { flag: '-i', description: '指定用於身分驗證的私鑰檔案 (Identity file)' }
+    ],
+    examples: [
+      { code: 'ssh root@192.168.1.100', description: '以 root 身分登入遠端伺服器' },
+      { code: 'ssh -i ~/.ssh/id_rsa user@example.com', description: '使用指定的私鑰登入' }
     ]
   },
   {
